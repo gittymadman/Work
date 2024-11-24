@@ -1,0 +1,17 @@
+pandas
+openpyxl
+sentence-transformers
+transformers
+einops
+accelerate
+langchain
+langchain_community
+langchain_huggingface
+streamlit
+faiss-cpu
+pypdf
+sentencepiece
+bitsandbytes
+dotenv
+faiss-db
+Gorq
