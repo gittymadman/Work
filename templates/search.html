@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Bar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .search-container {
+            margin-bottom: 20px;
+        }
+        .response-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Bar</h1>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Type your query..." />
+        <button onclick="callAPI()">Search</button>
+    </div>
+    <div class="response-container" id="responseContainer">
+        <!-- API response will be displayed here -->
+    </div>
+
+    <script>
+        function callAPI() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (!query) {
+                alert("Please enter a search term.");
+                return;
+            }
+
+            // Replace 'YOUR_API_URL' with your actual API endpoint
+            const apiUrl = `/search-engine?query=${encodeURIComponent(query)}`;
+
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`API error: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Display the response
+                    const responseContainer = document.getElementById('responseContainer');
+                    responseContainer.innerHTML = `
+                        <h2>Search Results:</h2>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                })
+                .catch(error => {
+                    console.error("Error fetching the API:", error);
+                    document.getElementById('responseContainer').innerHTML = `
+                        <h2>Error:</h2>
+                        <p>${error.message}</p>
+                    `;
+                });
+        }
+
+        // Add event listener for Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                callAPI();
+            }
+        });
+    </script>
+</body>
+</html>
